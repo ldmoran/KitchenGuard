@@ -20,7 +20,6 @@
     el.innerHTML = text.split(/\s+/).map(function (w, i) {
       return '<span class="w" aria-hidden="true"><span style="--i:' + i + '">' + w + '</span></span>';
     }).join(' ');
-    if (el.dataset.split === 'hero' && introOn) el.style.setProperty('--base', '1000ms');
   });
 
   /* ---------- Cifras que cuentan ---------- */
@@ -67,7 +66,7 @@
 
   // El titular del hero entra tras la intro
   var h1 = $('[data-split="hero"]');
-  if (h1) setTimeout(function () { h1.classList.add('in'); }, introOn ? 60 : 30);
+  if (h1 && !introOn) setTimeout(function () { h1.classList.add('in'); }, 30);
 
   // El borde de llamas y cifras del hero ya visibles
   $$('[data-count]').forEach(function (el) {
@@ -196,7 +195,25 @@
   }
 
   /* ---------- Fin de la intro ---------- */
+  /* ---------- Puerta de entrada: el clic habilita el sonido ---------- */
   if (introOn) {
-    setTimeout(function () { root.classList.remove('intro-on'); }, 3200);
+    var opened = false;
+    var enterSound = $('#enterSound'), enterMute = $('#enterMute');
+    function openSite(withSound) {
+      if (opened) return;
+      opened = true;
+      if (withSound) {
+        var box = $('#sound');
+        box.checked = true;
+        box.dispatchEvent(new Event('change'));   // arranca el audio y la firma de marca
+      }
+      root.classList.add('intro-open');
+      setTimeout(function () { if (h1) h1.classList.add('in'); }, 350);
+      setTimeout(function () { root.classList.remove('intro-on', 'intro-open'); }, 1100);
+    }
+    enterSound.addEventListener('click', function () { openSite(true); });
+    enterMute.addEventListener('click', function () { openSite(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') openSite(false); });
+    enterSound.focus({ preventScroll: true });
   }
 })();

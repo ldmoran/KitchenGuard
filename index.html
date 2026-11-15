@@ -29,8 +29,15 @@
   <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3c2 3.8 6 6 6 10.6A6 6 0 0 1 6 14c0-2.2 1-3.7 2.3-5 .3 1.7 1 2.6 2.2 2.9C9.9 8.8 10.7 5.8 12 3z"/></symbol>
 </svg>
 
-<div class="intro" aria-hidden="true">
-  <svg viewBox="0 0 24 24"><use href="#i-flame"/></svg>
+<div class="intro" id="intro" role="dialog" aria-modal="true" aria-labelledby="introT">
+  <div class="intro-box">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flame"/></svg>
+    <p class="intro-t" id="introT">KitchenGuard</p>
+    <div class="intro-actions">
+      <button type="button" class="btn btn-solid" id="enterSound">Entrar con sonido</button>
+      <button type="button" class="btn btn-line" id="enterMute">Entrar sin sonido</button>
+    </div>
+  </div>
 </div>
 <div class="progress" id="progress" aria-hidden="true"></div>
 
