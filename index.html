@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KitchenGuard — Alerta de gas para la cocina de tus padres</title>
+<meta name="description" content="Kit de alerta de gas para cocinas: alarma local y aviso al celular. Prototipo universitario ESPE en validación, Quito, Ecuador.">
+<meta name="theme-color" content="#0B4DFF" id="themeColor">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='26' fill='%230B4DFF'/%3E%3Cpath d='M50 16c8 15 22 24 22 42a22 22 0 0 1-44 0c0-9 4-15 9-20 1 7 4 10 9 11-3-13 0-24 4-33z' fill='%237CD4FF'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  /* Los estados ocultos de las animaciones solo existen si el JS corre. */
+  (function(){var h=document.documentElement;h.classList.add('js');
+  try{if(!sessionStorage.getItem('kg-intro')&&!matchMedia('(prefers-reduced-motion: reduce)').matches){h.classList.add('intro-on');sessionStorage.setItem('kg-intro','1')}}catch(e){}
+  setTimeout(function(){if(!window.__kgMotion){h.classList.remove('js','intro-on')}},4000)})();
+</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Íconos: un solo trazo y un solo grosor -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M4 8l8-4 8 4v8l-8 4-8-4V8zM4 8l8 4 8-4M12 12v8"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2.5 9a14.5 14.5 0 0 1 19 0M5.7 12.4a10 10 0 0 1 12.6 0M9 15.8a5.3 5.3 0 0 1 6 0M12 19.4h.01"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16v-5a6 6 0 1 1 12 0v5l1.6 2H4.4L6 16zM10 21a2 2 0 0 0 4 0"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3c2 3.8 6 6 6 10.6A6 6 0 0 1 6 14c0-2.2 1-3.7 2.3-5 .3 1.7 1 2.6 2.2 2.9C9.9 8.8 10.7 5.8 12 3z"/></symbol>
+</svg>
+
+<div class="intro" aria-hidden="true">
+  <svg viewBox="0 0 24 24"><use href="#i-flame"/></svg>
+</div>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<!-- Menú flotante: aparece al pasar el hero -->
+<div class="dock" id="dock">
+  <a href="#inicio" class="brand" aria-label="KitchenGuard, inicio"><svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flame"/></svg></a>
+  <nav aria-label="Secciones">
+    <a href="#como" data-sec="como">Cómo funciona</a>
+    <a href="#limites" data-sec="limites">Qué hace</a>
+    <a href="#mercado" data-sec="mercado">Mercado</a>
+    <a href="#proyecto" data-sec="proyecto">Proyecto</a>
+  </nav>
+  <a href="#opinion" class="btn btn-solid btn-sm">Dar mi opinión</a>
+</div>
+
+<a class="skip" href="#contenido">Saltar al contenido</a>
+
+<main id="contenido">
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="inicio" data-state="ok">
+  <svg class="hero-flame" viewBox="0 0 400 560" aria-hidden="true"><path d="M200 20C230 140 360 220 360 380C360 480 290 540 200 540C110 540 40 480 40 380C40 300 80 250 120 210C130 260 150 290 180 300C165 200 170 100 200 20Z"/></svg>
+
+  <header class="nav" data-enter style="--d:0ms">
+    <a href="#inicio" class="brand" aria-label="KitchenGuard, inicio">
+      <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flame"/></svg>
+      KitchenGuard
+    </a>
+    <nav aria-label="Principal">
+      <a href="#como">Cómo funciona</a>
+      <a href="#limites">Qué hace</a>
+      <a href="#mercado">Mercado</a>
+      <a href="#proyecto">Proyecto</a>
+    </nav>
+    <a href="#opinion" class="btn btn-solid btn-sm">Dar mi opinión</a>
+  </header>
+
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <h1 data-split="hero">Alerta de gas para la cocina de tus padres.</h1>
+      <p class="lead" data-enter style="--d:420ms">Una alarma suena en la cocina y, si hay internet, el aviso llega a tu celular. Kit preprogramado, sin soldar, con guía en español.</p>
+      <div class="actions" data-enter style="--d:520ms">
+        <a href="#opinion" class="btn btn-solid mag">Dar mi opinión <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <a href="#como" class="btn btn-line mag">Ver cómo funciona</a>
+      </div>
+      <p class="fine" data-enter style="--d:600ms">Prototipo universitario en validación. Dos unidades armadas con $94,80.</p>
+    </div>
+
+    <div class="demo" data-enter style="--d:300ms">
+      <div class="tilt" id="tilt">
+        <div class="phone" id="phone" role="img" aria-label="Simulación de la app de KitchenGuard">
+          <div class="phone-screen">
+            <div class="sbar"><span id="clock">9:41</span><span class="sbar-r"><svg class="ic" id="wifiIcon" aria-hidden="true"><use href="#i-wifi"/></svg></span></div>
+
+            <div class="toast" id="toast" aria-hidden="true">
+              <span class="toast-ic"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg></span>
+              <span><b>KitchenGuard</b>Posible gas en la cocina. Ventila y no uses fuego.</span>
+            </div>
+
+            <div class="app">
+              <p class="app-loc">Cocina · Casa de la abuela</p>
+              <h2 class="app-title" id="stateTitle" aria-live="polite">Todo en calma</h2>
+
+              <svg class="burner" viewBox="0 0 200 200" aria-hidden="true">
+                <circle cx="100" cy="100" r="46" class="b-ring"/>
+                <circle cx="100" cy="100" r="16" class="b-cap"/>
+                <g id="petals"></g>
+              </svg>
+
+              <p class="app-sub" id="stateSub">El sensor no detecta gas.</p>
+
+              <dl class="app-rows">
+                <div><dt>Alarma local</dt><dd id="rowAlarm">Lista</dd></div>
+                <div><dt>Aviso al celular</dt><dd id="rowNet">Conectado</dd></div>
+              </dl>
+              <button class="app-mute" id="muteBtn" type="button" disabled>Silenciar alarma</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sim" role="group" aria-label="Controles de la simulación">
+        <p class="sim-t" id="simLabel">Nivel de gas simulado</p>
+        <div class="seg" role="radiogroup" aria-labelledby="simLabel">
+          <button type="button" role="radio" aria-checked="true" data-level="ok">Calma</button>
+          <button type="button" role="radio" aria-checked="false" data-level="warn">Elevado</button>
+          <button type="button" role="radio" aria-checked="false" data-level="bad">Fuga</button>
+        </div>
+        <div class="sim-sw">
+          <label class="sw"><input type="checkbox" id="wifi" checked><span class="sw-track"></span>Internet</label>
+          <label class="sw"><input type="checkbox" id="sound"><span class="sw-track"></span>Sonido</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="edge" id="edge" aria-hidden="true"></div>
+</section>
+
+<!-- ===== BANDA ===== -->
+<div class="band" aria-hidden="true">
+  <div class="band-track" id="bandTrack">
+    <span>Alarma local<svg class="ic" viewBox="0 0 24 24"><use href="#i-flame"/></svg></span>
+    <span>Aviso al celular<svg class="ic" viewBox="0 0 24 24"><use href="#i-flame"/></svg></span>
+    <span>Sin soldar<svg class="ic" viewBox="0 0 24 24"><use href="#i-flame"/></svg></span>
+    <span>Guía en español<svg class="ic" viewBox="0 0 24 24"><use href="#i-flame"/></svg></span>
+    <span>Alarma local<svg class="ic" viewBox="0 0 24 24"><use href="#i-flame"/></svg></span>
+    <span>Aviso al celular<svg class="ic" viewBox="0 0 24 24"><use href="#i-flame"/></svg></span>
+    <span>Sin soldar<svg class="ic" viewBox="0 0 24 24"><use href="#i-flame"/></svg></span>
+    <span>Guía en español<svg class="ic" viewBox="0 0 24 24"><use href="#i-flame"/></svg></span>
+  </div>
+</div>
+
+<!-- ===== COMO FUNCIONA: el kit se arma al hacer scroll ===== -->
+<section class="sec paper" id="como">
+  <div class="wrap">
+    <h2 class="wide" data-split>Se arma, se conecta y avisa.</h2>
+    <p class="sub rv">Para quien no programa ni quiere contratar a un técnico.</p>
+
+    <div class="story">
+      <div class="stage" id="stage" data-step="0">
+        <svg viewBox="0 0 420 420" role="img" aria-label="Ilustración del kit: placa, sensor y alarma dentro de la carcasa, con aviso al celular">
+          <rect class="case" x="60" y="140" width="300" height="170" rx="22"/>
+          <path class="vents" d="M306 160h38M306 172h38M306 184h38"/>
+
+          <g class="part p-board">
+            <rect class="board" x="84" y="166" width="128" height="80" rx="8"/>
+            <rect class="chip" x="104" y="184" width="38" height="38" rx="5"/>
+            <path class="pins" d="M156 186h40M156 198h40M156 210h40"/>
+            <circle class="led" cx="196" cy="176" r="4.5"/>
+          </g>
+          <g class="part p-sensor">
+            <circle class="sensor" cx="290" cy="212" r="30"/>
+            <circle class="sensor-in" cx="290" cy="212" r="18"/>
+            <path class="mesh" d="M278 212h24M290 200v24"/>
+          </g>
+          <g class="part p-buzz">
+            <circle class="buzz" cx="250" cy="282" r="15"/>
+            <circle class="buzz-in" cx="250" cy="282" r="5"/>
+          </g>
+          <g class="part p-usb">
+            <rect class="usb" x="354" y="232" width="30" height="18" rx="4"/>
+            <path class="cable" d="M384 241h32"/>
+          </g>
+
+          <g class="wifi">
+            <path d="M166 124a20 20 0 0 1 40 0" transform="translate(4 0)"/>
+            <path d="M148 126a38 38 0 0 1 76 0" transform="translate(4 0)"/>
+            <path d="M130 128a56 56 0 0 1 112 0" transform="translate(4 0)"/>
+          </g>
+
+          <g class="waves">
+            <circle cx="250" cy="282" r="22"/>
+            <circle cx="250" cy="282" r="22"/>
+            <circle cx="250" cy="282" r="22"/>
+          </g>
+
+          <g class="phone">
+            <rect class="ph-body" x="296" y="326" width="70" height="90" rx="13"/>
+            <rect class="ph-note" x="303" y="337" width="56" height="22" rx="6"/>
+            <path class="ph-lines" d="M309 345h28M309 352h18"/>
+          </g>
+        </svg>
+      </div>
+
+      <ol class="steps" id="steps">
+        <li data-step="1">
+          <svg class="ic ic-l" aria-hidden="true"><use href="#i-box"/></svg>
+          <h3>Arma las piezas marcadas</h3>
+          <p>Cada pieza viene identificada y encaja en conectores seguros. Si requiere soldadura, llega premontada.</p>
+        </li>
+        <li data-step="2">
+          <svg class="ic ic-l" aria-hidden="true"><use href="#i-wifi"/></svg>
+          <h3>Conecta el Wi-Fi desde el celular</h3>
+          <p>Abres la página del equipo y escribes la red de tu casa. No instalas programas.</p>
+        </li>
+        <li data-step="3">
+          <svg class="ic ic-l" aria-hidden="true"><use href="#i-bell"/></svg>
+          <h3>Recibe el aviso en la cocina y en el celular</h3>
+          <p>El sensor vigila el gas. Ante una condición anómala suena la alarma y, con internet, llega la notificación.</p>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LIMITES ===== -->
+<section class="sec ink" id="limites">
+  <div class="wrap">
+    <h2 class="wide" data-split>Un aviso complementario, no un detector certificado.</h2>
+    <div class="twocol">
+      <div class="rv">
+        <h3>Lo que hace</h3>
+        <ul class="ticks yes">
+          <li style="--i:0"><svg class="ic tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" pathLength="1"/></svg>Suena una alarma en la cocina ante una condición programada.</li>
+          <li style="--i:1"><svg class="ic tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" pathLength="1"/></svg>Avisa al celular cuando hay internet y el servicio responde.</li>
+          <li style="--i:2"><svg class="ic tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" pathLength="1"/></svg>Vigila gas licuado de petróleo (GLP) con un sensor MQ-6.</li>
+          <li style="--i:3"><svg class="ic tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" pathLength="1"/></svg>Se configura desde el teléfono, sin programar.</li>
+        </ul>
+      </div>
+      <div class="rv">
+        <h3>Lo que no hace</h3>
+        <ul class="ticks no">
+          <li style="--i:0"><svg class="ic tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" pathLength="1"/></svg>No reemplaza a un detector de gas homologado.</li>
+          <li style="--i:1"><svg class="ic tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" pathLength="1"/></svg>No detecta monóxido de carbono, humo ni humedad.</li>
+          <li style="--i:2"><svg class="ic tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" pathLength="1"/></svg>Sin internet, solo suena la alarma local.</li>
+          <li style="--i:3"><svg class="ic tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" pathLength="1"/></svg>No garantiza prevención total. Se prueba solo con ensayos controlados, nunca con fugas reales en viviendas.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MERCADO ===== -->
+<section class="sec paper" id="mercado">
+  <div class="wrap">
+    <h2 class="wide" data-split>Ya existen detectores, de $13 a $43,70.</h2>
+    <p class="sub sub-wide rv">Decir «detecta gas y avisa al celular» no alcanza. Nuestra apuesta es otra: instrucciones en español, apoyo al ponerlo en marcha y una configuración que una persona mayor pueda seguir.</p>
+
+    <ul class="bars" aria-label="Precios publicados de detectores en Ecuador">
+      <li style="--i:0"><span class="b-name">ASOTEIND · Alarma de gas GLP</span><span class="b-track"><i style="--w:30%"></i></span><b data-count="13" data-dec="2" data-pre="$">$13,00</b></li>
+      <li style="--i:1"><span class="b-name">Casa Eléctrica · LX-GS</span><span class="b-track"><i style="--w:47%"></i></span><b data-count="20.54" data-dec="2" data-pre="$">$20,54</b></li>
+      <li style="--i:2"><span class="b-name">MercadoLibre · Tuya Wi-Fi</span><span class="b-track"><i style="--w:50%"></i></span><b data-count="22" data-dec="2" data-pre="$">$22,00</b></li>
+      <li style="--i:3"><span class="b-name">MercadoLibre · Tuya con sirena</span><span class="b-track"><i style="--w:63%"></i></span><b data-count="27.5" data-dec="2" data-pre="$">$27,50</b></li>
+      <li style="--i:4"><span class="b-name">Luxus · Inalámbrico con aviso</span><span class="b-track"><i style="--w:100%"></i></span><b data-count="43.7" data-dec="2" data-pre="$">$43,70</b></li>
+      <li style="--i:5" class="ours"><span class="b-name">KitchenGuard</span><span class="b-track"><i style="--w:100%"></i></span><b>Por validar</b></li>
+    </ul>
+    <p class="note rv">Precios publicados el 20/10/2026, no cotizaciones. Verifica existencias, IVA y envío.</p>
+  </div>
+</section>
+
+<!-- ===== PROYECTO / PRESUPUESTO ===== -->
+<section class="sec paper-2" id="proyecto">
+  <div class="wrap">
+    <h2 class="wide" data-split>Dos prototipos cuestan $94,80.</h2>
+    <p class="sub sub-wide rv">El límite real del grupo es $100, o $14,29 por integrante. Es un presupuesto de demostración: no es el costo de un lote ni el precio de venta.</p>
+
+    <div class="stack" role="img" aria-label="Reparto del presupuesto de $94,80">
+      <span style="--w:38.8%;--c:var(--blue);--i:0"><b>Electrónica</b><em data-count="36.8" data-dec="2" data-pre="$">$36,80</em></span>
+      <span style="--w:12.7%;--c:#2F6BFF;--i:1"><b>Carcasa</b><em data-count="12" data-dec="2" data-pre="$">$12,00</em></span>
+      <span style="--w:10.5%;--c:#5C8DFF;--i:2"><b>USB</b><em data-count="10" data-dec="2" data-pre="$">$10,00</em></span>
+      <span style="--w:10.5%;--c:#8FB0FF;color:var(--ink);--i:3"><b>Transporte</b><em data-count="10" data-dec="2" data-pre="$">$10,00</em></span>
+      <span style="--w:21.1%;--c:#C9D8FF;color:var(--ink);--i:4"><b>Pruebas e imprevistos</b><em data-count="20" data-dec="2" data-pre="$">$20,00</em></span>
+      <span style="--w:6.4%;--c:#AEB9D6;color:var(--ink);--i:5"><b>Guías</b><em data-count="6" data-dec="2" data-pre="$">$6,00</em></span>
+    </div>
+
+    <details class="detail rv">
+      <summary>Ver el desglose completo</summary>
+      <table>
+        <thead><tr><th>Concepto</th><th>Cant.</th><th>Total</th><th>Dato</th></tr></thead>
+        <tbody>
+          <tr><td>Placa de control con Wi-Fi</td><td>2</td><td>$21,00</td><td>Precio publicado</td></tr>
+          <tr><td>Sensor de gas GLP (MQ-6)</td><td>2</td><td>$7,00</td><td>Precio publicado</td></tr>
+          <tr><td>Avisador sonoro</td><td>2</td><td>$1,00</td><td>Precio publicado</td></tr>
+          <tr><td>Placa de montaje de pruebas</td><td>2</td><td>$3,80</td><td>Precio publicado</td></tr>
+          <tr><td>Cables de conexión</td><td>2</td><td>$4,00</td><td>Precio publicado</td></tr>
+          <tr><td>Alimentación USB</td><td>2</td><td>$10,00</td><td>Estimación</td></tr>
+          <tr><td>Carcasa ventilada</td><td>2</td><td>$12,00</td><td>Estimación</td></tr>
+          <tr><td>Guías impresas y etiquetas</td><td>1</td><td>$6,00</td><td>Estimación</td></tr>
+          <tr><td>Transporte en Quito</td><td>1</td><td>$10,00</td><td>Estimación</td></tr>
+          <tr><td>Pruebas y reposiciones</td><td>1</td><td>$5,00</td><td>Reserva</td></tr>
+          <tr><td>Imprevistos</td><td>1</td><td>$15,00</td><td>Reserva</td></tr>
+        </tbody>
+        <tfoot><tr><td colspan="2">Total</td><td colspan="2">$94,80 · saldo $5,20</td></tr></tfoot>
+      </table>
+      <p class="note">Precios de componentes publicados por Electrónica SIEC (Quito), consultados el 20/10/2026. Los demás rubros son estimaciones por cotizar.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ===== VALIDACION ===== -->
+<section class="sec paper" id="validacion">
+  <div class="wrap">
+    <h2 class="wide" data-split>Cuatro semanas para decidir si seguimos.</h2>
+    <ol class="weeks">
+      <li style="--i:0"><h3>Semana 1</h3><p><b>Comprar y entrevistar.</b> Piezas para dos demostradores y al menos diez posibles usuarios.</p></li>
+      <li style="--i:1"><h3>Semana 2</h3><p><b>Ensayo supervisado.</b> Configuración Wi-Fi, consumo y alarma local. Se miden los tiempos de instalación.</p></li>
+      <li style="--i:2"><h3>Semana 3</h3><p><b>Simulaciones sin gas.</b> Pruebas del canal remoto. Nunca con fugas reales en viviendas.</p></li>
+      <li style="--i:3"><h3>Semana 4</h3><p><b>Maqueta segura.</b> Presentación, tres preguntas finales y la decisión: continuar, rediseñar o descartar.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===== OPINION ===== -->
+<section class="sec blue" id="opinion">
+  <div class="wrap split">
+    <div class="split-head">
+      <h2 data-split>Danos tu opinión en tres preguntas.</h2>
+      <p class="sub rv">Queremos saber qué piensas de la instalación, las alertas y el precio antes de construir más.</p>
+    </div>
+
+    <div class="survey rv">
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfIvVBDUd-mo5yKzQ815GqS1uIV_cCq_dMUnXrxbHz6imGUlQ/viewform?embedded=true" title="Encuesta de KitchenGuard" loading="lazy" width="100%" height="1250" frameborder="0">Cargando…</iframe>
+      <a class="btn btn-line" href="https://docs.google.com/forms/d/e/1FAIpQLSfIvVBDUd-mo5yKzQ815GqS1uIV_cCq_dMUnXrxbHz6imGUlQ/viewform" target="_blank" rel="noopener">Abrir la encuesta en otra pestaña</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top rv">
+      <a href="#inicio" class="brand"><svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flame"/></svg>KitchenGuard</a>
+      <ul class="team" aria-label="Equipo del Grupo 2">
+        <li>Christian Bonifaz</li><li>Alison Miranda</li><li>David Morán</li><li>Samuel Emilio Pallares Cortez</li><li>Dilan Rocha</li><li>Johan Taipicaña</li><li>Gabriel Vivanco</li>
+      </ul>
+    </div>
+    <p class="legal"><b>Aviso.</b> KitchenGuard es un prototipo universitario de demostración. No es un detector certificado, no está homologado y no sustituye a los detectores de seguridad aprobados. La alerta remota depende de internet y de un servicio externo. La viabilidad comercial aún no está demostrada.</p>
+    <p class="legal">Universidad de las Fuerzas Armadas ESPE · Gestión y Emprendimiento · NRC 33358 · Docente: Mercedes Beatriz Montero Berru · Quito, 2026</p>
+    <details class="sources">
+      <summary>Fuentes de precios</summary>
+      <ul>
+        <li><a href="https://www.electronicasiec.com/shop" rel="noopener" target="_blank">Electrónica SIEC: placa, sensor MQ-6 y tienda</a></li>
+        <li><a href="https://www.electronicasiec.com/product-page/zumbador-buzzer-peque%C3%B1o-alarma-5v-arduino-proyectos" rel="noopener" target="_blank">Electrónica SIEC: buzzer</a></li>
+        <li><a href="https://www.electronicasiec.com/product-page/protoboard-peque-o-400-puntos-proyectos" rel="noopener" target="_blank">Electrónica SIEC: placa de montaje</a></li>
+        <li><a href="https://www.electronicasiec.com/product-page/cables-dupont-para-protoboard-20cm-m-h-pack-x40" rel="noopener" target="_blank">Electrónica SIEC: cables</a></li>
+        <li><a href="https://asoteind.com/detectores-humo-contra-incendios-quito/" rel="noopener" target="_blank">ASOTEIND Quito: detectores</a></li>
+        <li><a href="https://www.casaelectricaquito.com/?product=detector-de-gas-glp-modelo-lx-gs" rel="noopener" target="_blank">Casa Eléctrica Quito: detector GLP</a></li>
+        <li><a href="https://luxus.ec/producto/detector-de-gas-inalambrico/" rel="noopener" target="_blank">Luxus Ecuador: detector inalámbrico</a></li>
+        <li><a href="https://www.mercadolibre.com.ec/detector-de-gas-wifi-tuya-smart-app-alertas/up/MECU3764024737" rel="noopener" target="_blank">MercadoLibre Ecuador: detector Wi-Fi</a></li>
+        <li><a href="https://www.mercadolibre.com.ec/detector-fugas-de-gas-wifi-tuya-hogar-seguro-247-smartlife/up/MECU3863327453" rel="noopener" target="_blank">MercadoLibre Ecuador: alarma Wi-Fi</a></li>
+      </ul>
+    </details>
+  </div>
+  <div class="mega rv" aria-hidden="true">KitchenGuard</div>
+</footer>
+
+<script src="script.js"></script>
+<script src="motion.js"></script>
+</body>
+</html>
