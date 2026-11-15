@@ -194,26 +194,45 @@
     });
   }
 
-  /* ---------- Fin de la intro ---------- */
-  /* ---------- Puerta de entrada: el clic habilita el sonido ---------- */
+  /* ---------- Puerta de entrada: la perilla enciende la hornilla ---------- */
   if (introOn) {
     var opened = false;
+    var intro = $('#intro');
     var enterSound = $('#enterSound'), enterMute = $('#enterMute');
+
+    // Las 12 llamas de la hornilla de la puerta
+    var ip = $('#introPetals');
+    for (var k = 0; k < 12; k++) {
+      var g = document.createElementNS(NS, 'g');
+      g.setAttribute('transform', 'rotate(' + k * 30 + ' 100 100)');
+      var p = document.createElementNS(NS, 'path');
+      p.setAttribute('class', 'ip');
+      p.setAttribute('d', 'M100 28C95 40 93 49 100 58C107 49 105 40 100 28Z');
+      p.style.setProperty('--i', k);
+      g.appendChild(p);
+      ip.appendChild(g);
+    }
+
     function openSite(withSound) {
       if (opened) return;
       opened = true;
+      intro.classList.add('lit');                  // gira la perilla y se encienden las llamas
       if (withSound) {
         var box = $('#sound');
         box.checked = true;
-        box.dispatchEvent(new Event('change'));   // arranca el audio y la firma de marca
+        box.dispatchEvent(new Event('change'));    // clic de encendido + firma de marca
       }
-      root.classList.add('intro-open');
-      setTimeout(function () { if (h1) h1.classList.add('in'); }, 350);
-      setTimeout(function () { root.classList.remove('intro-on', 'intro-open'); }, 1100);
+      var wait = withSound ? 1500 : 1100;          // deja ver el encendido
+      setTimeout(function () {
+        root.classList.add('intro-open');
+        setTimeout(function () { if (h1) h1.classList.add('in'); }, 350);
+        setTimeout(function () { root.classList.remove('intro-on', 'intro-open'); }, 1000);
+      }, wait);
     }
     enterSound.addEventListener('click', function () { openSite(true); });
     enterMute.addEventListener('click', function () { openSite(false); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') openSite(false); });
-    enterSound.focus({ preventScroll: true });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') openSite(false);
+    });
   }
 })();

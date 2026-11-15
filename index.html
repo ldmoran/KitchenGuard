@@ -29,14 +29,30 @@
   <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3c2 3.8 6 6 6 10.6A6 6 0 0 1 6 14c0-2.2 1-3.7 2.3-5 .3 1.7 1 2.6 2.2 2.9C9.9 8.8 10.7 5.8 12 3z"/></symbol>
 </svg>
 
-<div class="intro" id="intro" role="dialog" aria-modal="true" aria-labelledby="introT">
+<div class="intro" id="intro" role="dialog" aria-modal="true" aria-label="Entrada a KitchenGuard">
   <div class="intro-box">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flame"/></svg>
-    <p class="intro-t" id="introT">KitchenGuard</p>
-    <div class="intro-actions">
-      <button type="button" class="btn btn-solid" id="enterSound">Entrar con sonido</button>
-      <button type="button" class="btn btn-line" id="enterMute">Entrar sin sonido</button>
-    </div>
+    <button type="button" class="burner-btn" id="enterSound" aria-label="Encender y entrar con sonido">
+      <svg viewBox="22 22 156 156" aria-hidden="true">
+        <circle cx="100" cy="100" r="46" class="ib-ring"/>
+        <g id="introPetals"></g>
+        <circle cx="100" cy="100" r="31" class="ib-groove"/>
+        <g transform="translate(100 100)">
+          <g class="knob">
+            <circle cx="0" cy="0" r="25" class="ib-knob"/>
+            <path d="M0 0V-20" class="ib-mark"/>
+          </g>
+        </g>
+      </svg>
+    </button>
+    <p class="intro-t">KitchenGuard</p>
+    <p class="intro-hint">Toca la perilla para entrar con sonido</p>
+    <button type="button" class="intro-skip" id="enterMute">Entrar sin sonido</button>
+  </div>
+  <div class="intro-credits">
+    <p class="ic-t">Creadores</p>
+    <ul>
+      <li>Christian Bonifaz</li><li>Alison Miranda</li><li>David Morán</li><li>Samuel Emilio Pallares Cortez</li><li>Dilan Rocha</li><li>Johan Taipicaña</li><li>Gabriel Vivanco</li>
+    </ul>
   </div>
 </div>
 <div class="progress" id="progress" aria-hidden="true"></div>
